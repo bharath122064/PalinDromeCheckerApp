@@ -1,21 +1,37 @@
+import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class PalinDrome {
+
     public static void main(String[] args) {
-        String word = "radar";
-        int start = 0;
-        int end = word.length() - 1;
+
+        String word = "civic";
+
+
+        Stack<Character> stack = new Stack<>();
+
+
+        Queue<Character> queue = new LinkedList<>();
+
+
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            stack.push(ch);
+            queue.add(ch);
+        }
+
         boolean isPalindrome = true;
 
-        while (start < end) {
-            if (word.charAt(start) != word.charAt(end)) {
+
+        while (!stack.isEmpty()) {
+            if (stack.pop() != queue.remove()) {
                 isPalindrome = false;
                 break;
             }
-            start++;
-            end--;
         }
 
         System.out.println("Input: " + word);
         System.out.println("Is Palindrome?: " + isPalindrome);
     }
-
 }
