@@ -8,11 +8,10 @@ public class PalinDrome {
         for(int i=word.length()-1;i>=0;i--){
             reversed = reversed + word.charAt(i);
         }
-        if (word.equals(reversed)) {
-            System.out.println(word + " is a Palindrome.");
-        } else {
-            System.out.println(word + " is NOT a Palindrome.");
-        }
+        boolean isPalindrome = word.equals(reversed);
+
+        System.out.println("Input string: " + word);
+        System.out.println("Is it a palindrome: " + isPalindrome);
 
         System.out.println("Program exited successfully.");
     }
