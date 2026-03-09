@@ -1,20 +1,43 @@
-import java.util.Scanner;
+import java.util.*;
 
-class PalindromeChecker {
+interface PalindromeStrategy {
+    boolean checkPalindrome(String str);
+}
+
+class StackStrategy implements PalindromeStrategy {
 
     public boolean checkPalindrome(String str) {
 
-        str = str.replaceAll("\\s+", "").toLowerCase();
-        int start = 0;
-        int end = str.length() - 1;
+        Stack<Character> stack = new Stack<>();
 
-        while (start < end) {
-            if (str.charAt(start) != str.charAt(end)) {
-                return false;
-            }
-            start++;
-            end--;
+        for (char c : str.toCharArray()) {
+            stack.push(c);
         }
+
+        for (char c : str.toCharArray()) {
+            if (c != stack.pop())
+                return false;
+        }
+
+        return true;
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+
+    public boolean checkPalindrome(String str) {
+
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (char c : str.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast())
+                return false;
+        }
+
         return true;
     }
 }
@@ -24,12 +47,17 @@ public class PalinDrome {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        PalindromeChecker checker = new PalindromeChecker();
 
         System.out.print("Input: ");
         String input = sc.nextLine();
 
-        boolean result = checker.checkPalindrome(input);
+        PalindromeStrategy strategy;
+
+        // Choosing strategy dynamically
+        strategy = new StackStrategy();
+        // strategy = new DequeStrategy();
+
+        boolean result = strategy.checkPalindrome(input);
 
         System.out.println("Is Palindrome?: " + result);
     }
