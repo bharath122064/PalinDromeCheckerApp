@@ -1,48 +1,34 @@
 import java.util.*;
 
-interface PalindromeStrategy {
-    boolean checkPalindrome(String str);
-}
+public class PalinDrome {
 
-class StackStrategy implements PalindromeStrategy {
 
-    public boolean checkPalindrome(String str) {
+    static boolean iterativePalindrome(String str) {
+        int start = 0;
+        int end = str.length() - 1;
 
+        while (start < end) {
+            if (str.charAt(start) != str.charAt(end))
+                return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+
+    static boolean stackPalindrome(String str) {
         Stack<Character> stack = new Stack<>();
 
-        for (char c : str.toCharArray()) {
+        for (char c : str.toCharArray())
             stack.push(c);
-        }
 
         for (char c : str.toCharArray()) {
             if (c != stack.pop())
                 return false;
         }
-
         return true;
     }
-}
-
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean checkPalindrome(String str) {
-
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char c : str.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast())
-                return false;
-        }
-
-        return true;
-    }
-}
-
-public class PalinDrome {
 
     public static void main(String[] args) {
 
@@ -51,14 +37,20 @@ public class PalinDrome {
         System.out.print("Input: ");
         String input = sc.nextLine();
 
-        PalindromeStrategy strategy;
 
-        // Choosing strategy dynamically
-        strategy = new StackStrategy();
-        // strategy = new DequeStrategy();
+        long start1 = System.nanoTime();
+        boolean result1 = iterativePalindrome(input);
+        long end1 = System.nanoTime();
 
-        boolean result = strategy.checkPalindrome(input);
 
-        System.out.println("Is Palindrome?: " + result);
+        long start2 = System.nanoTime();
+        boolean result2 = stackPalindrome(input);
+        long end2 = System.nanoTime();
+
+        System.out.println("Iterative Result: " + result1);
+        System.out.println("Iterative Time: " + (end1 - start1) + " ns");
+
+        System.out.println("Stack Result: " + result2);
+        System.out.println("Stack Time: " + (end2 - start2) + " ns");
     }
 }
